@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cur6yf4ahytnt"]
+
+[ext_resource type="Script" uid="uid://xlfn1f3k5t3k" path="res://player/Player.cs" id="1_ulp21"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwv66"]
+size = Vector2(12, 16)
+
+[node name="Player" type="CharacterBody2D" unique_id=1625874111]
+collision_layer = 2
+collision_mask = 33
+script = ExtResource("1_ulp21")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1708446005]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_xwv66")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1991371223]
+offset_left = -6.0
+offset_top = -16.0
+offset_right = 6.0
+color = Color(1, 0.5514109, 0.5887081, 1)

@@ -12,8 +12,8 @@ hold switches down and beat timed doors.
 | Part | Name | Status |
 |---|---|---|
 | 0 | Project setup | ✅ Done |
-| 1 | Player movement | 🔨 In progress |
-| 2 | Platforming feel + camera | ⬜ Not started |
+| 1 | Player movement | ✅ Done |
+| 2 | Platforming feel + camera | 🔨 In progress |
 | 3 | ⭐ Translocator v1: drop & recall | ⬜ Not started |
 | 4 | Translocator rules & feedback | ⬜ Not started |
 | 5 | Tile levels, hazards & respawn | ⬜ Not started |
@@ -25,7 +25,8 @@ hold switches down and beat timed doors.
 
 Status key: ⬜ Not started · 🔨 In progress · ✅ Done
 
-> **▶ Resume here (updated 2026-11-05):** Part 1, player movement. Start with the concepts, then build `player/player.tscn`.
+> **▶ Resume here (updated 2026-11-05):** Part 2, platforming feel. Start by replacing `_gravity`/`_jumpSpeed` with `JumpHeight` + `TimeToApex`.
+> Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 48 px, so leave some headroom when you tune the jump.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
 >
 > Repo: https://github.com/ZaidRaed4/RECALL- (branch `main`)
@@ -136,10 +137,10 @@ res://
 **Goal:** a placeholder player that runs and jumps around a greybox room.
 **Concepts:** `CharacterBody2D`, `_PhysicsProcess` and `delta`, `Velocity` + `MoveAndSlide()`, gravity as acceleration,
 `IsOnFloor()`, `Input.GetAxis` / `IsActionJustPressed`, `MoveToward` for acceleration and friction, `[Export]` tuning.
-- [ ] `player/player.tscn`: CharacterBody2D → Sprite2D (placeholder) + CollisionShape2D
-- [ ] `player/Player.cs`: gravity, horizontal acceleration/friction, jump
-- [ ] `levels/test_room.tscn`: StaticBody2D floors, walls, and platforms at different heights
-- [ ] Set test_room as the main scene
+- [x] `player/player.tscn`: CharacterBody2D → ColorRect (placeholder) + CollisionShape2D, origin at the feet
+- [x] `player/Player.cs`: gravity, horizontal acceleration/friction, jump
+- [x] `levels/test_room.tscn`: StaticBody2D floors, walls, and platforms at different heights
+- [x] Set test_room as the main scene
 
 **Done when:** you can run left and right with a smooth start and stop, jump onto a platform, and you can't walk through walls.
 
@@ -271,3 +272,4 @@ audio buses, physics interpolation vs. pixel snapping.
 ## Changelog
 <!-- One line per finished part, e.g. "Part 1: Player movement (2026-11-05)" -->
 - Part 0: Project setup (2026-11-05)
+- Part 1: Player movement (2026-11-05)
