@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://copdp3tmqahxi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwv66"]
+size = Vector2(480, 16)
+
+[node name="TestRoom" type="Node2D" unique_id=325081135]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1406970819]
+position = Vector2(240, 262)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1008036208]
+shape = SubResource("RectangleShape2D_xwv66")
+
+[node name="ColorRect" type="ColorRect" parent="Floor" unique_id=1430604238]
+offset_left = -240.0
+offset_top = -8.0
+offset_right = 240.0
+offset_bottom = 8.0

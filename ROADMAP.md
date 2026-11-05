@@ -11,8 +11,8 @@ hold switches down and beat timed doors.
 
 | Part | Name | Status |
 |---|---|---|
-| 0 | Project setup | 🔨 In progress |
-| 1 | Player movement | ⬜ Not started |
+| 0 | Project setup | ✅ Done |
+| 1 | Player movement | 🔨 In progress |
 | 2 | Platforming feel + camera | ⬜ Not started |
 | 3 | ⭐ Translocator v1: drop & recall | ⬜ Not started |
 | 4 | Translocator rules & feedback | ⬜ Not started |
@@ -25,11 +25,10 @@ hold switches down and beat timed doors.
 
 Status key: ⬜ Not started · 🔨 In progress · ✅ Done
 
-> **▶ Resume here (stopped 2026-11-04):**
-> 1. **Fix the layer names:** they went into *Layer Names → 2D Render*. Move them to *Layer Names → **2D Physics***, then clear the 2D Render ones.
-> 2. *(Optional)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
-> 3. Finish the TestRoom floor (how-to Step 5), save it as `levels/test_room.tscn`, set it as the main scene, and press F5.
-> 4. `git init` + commit `Part 0: Project setup`. Then Part 1 starts.
+> **▶ Resume here (updated 2026-11-05):** Part 1, player movement. Start with the concepts, then build `player/player.tscn`.
+> *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
+>
+> Repo: https://github.com/ZaidRaed4/RECALL- (branch `main`)
 
 **How every part works:**
 1. Go over the concepts the part teaches.
@@ -126,10 +125,10 @@ res://
 - [x] Display: 480×270 base resolution, 1440×810 window, integer scaling, `canvas_items` stretch
 - [x] Nearest-neighbour texture filter (crisp pixels)
 - [x] Input actions: main keys done (backup keys still to add)
-- [ ] Physics layer names: entered under 2D **Render**; move them to 2D **Physics**
+- [x] Physics layer names (2D Physics, layers 1–6)
 - [x] C# solution (`.csproj` + `.sln`)
-- [ ] TestRoom with a floor, set as main scene, runs with F5
-- [ ] git init + first commit
+- [x] TestRoom with a floor, set as main scene, runs with F5
+- [x] git init + first commit, pushed to GitHub
 
 **Done when:** the project opens with no errors and every setting shows up in Project Settings.
 
@@ -271,3 +270,4 @@ audio buses, physics interpolation vs. pixel snapping.
 
 ## Changelog
 <!-- One line per finished part, e.g. "Part 1: Player movement (2026-11-05)" -->
+- Part 0: Project setup (2026-11-05)
