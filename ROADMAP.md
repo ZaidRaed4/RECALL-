@@ -13,9 +13,9 @@ hold switches down and beat timed doors.
 |---|---|---|
 | 0 | Project setup | ✅ Done |
 | 1 | Player movement | ✅ Done |
-| 2 | Platforming feel + camera | 🔨 In progress |
-| 3 | ⭐ Translocator v1: drop & recall | ⬜ Not started |
-| 4 | Translocator rules & feedback | ⬜ Not started |
+| 2 | Platforming feel + camera | ⏭️ Skipped |
+| 3 | ⭐ Translocator v1: drop & recall | ✅ Done |
+| 4 | Translocator rules & feedback | 🔨 In progress |
 | 5 | Tile levels, hazards & respawn | ⬜ Not started |
 | 6 | Puzzle pieces | ⬜ Not started |
 | 7 | Level design | ⬜ Not started |
@@ -23,10 +23,11 @@ hold switches down and beat timed doors.
 | 9 | Art, animation, audio, juice | ⬜ Not started |
 | 10 | Ship it | ⬜ Not started |
 
-Status key: ⬜ Not started · 🔨 In progress · ✅ Done
+Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 
-> **▶ Resume here (updated 2026-11-05):** Part 2, platforming feel. Start by replacing `_gravity`/`_jumpSpeed` with `JumpHeight` + `TimeToApex`.
-> Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 48 px, so leave some headroom when you tune the jump.
+> **▶ Resume here (updated 2026-11-12):** Part 4, translocator rules & feedback. Start with the safe-recall check:
+> the player (12×16) is bigger than the translocator (8×8), so recalling next to a wall or under a low ceiling can put you inside it.
+> Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 46 px. If it feels too tight, raise `_jumpSpeed` a little.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
 >
 > Repo: https://github.com/ZaidRaed4/RECALL- (branch `main`)
@@ -144,20 +145,15 @@ res://
 
 **Done when:** you can run left and right with a smooth start and stop, jump onto a platform, and you can't walk through walls.
 
-### Part 2: Platforming feel + camera
-**Goal:** movement that feels *good*. This is the difference between "it works" and "it's fun".
-**Concepts:** jump height and time-to-apex math (`gravity = 2h/t²`, `jumpVelocity = 2h/t`), variable jump height,
-stronger gravity when falling, terminal velocity, coyote time, jump buffering, float countdown timers,
-air vs. ground acceleration, `Camera2D` smoothing and limits.
-- [ ] Jump tuned in tiles (`JumpHeight`, `TimeToApex`) instead of magic numbers
-- [ ] Release jump early → shorter hop
-- [ ] Fall gravity multiplier + max fall speed
-- [ ] Coyote time (~0.1s)
-- [ ] Jump buffer (~0.1s)
-- [ ] Camera2D follows the player with smoothing
-
-**Done when:** a tap gives a small hop and holding gives a full jump. You can still jump a few frames after running off a ledge,
-and pressing jump just before you land still jumps. The camera follows without jitter.
+### Part 2: Platforming feel + camera ⏭️ Skipped
+**Decision (2026-11-05):** the basic movement from Part 1 is enough for this project. We'll come back to these only if playtesting shows a real problem.
+The camera moved to Part 5, because the test room is only one screen and the camera has nothing to follow until then.
+- ~~Jump tuned in tiles (`JumpHeight`, `TimeToApex`) instead of magic numbers~~
+- ~~Release jump early → shorter hop~~
+- ~~Fall gravity multiplier + max fall speed~~
+- ~~Coyote time (~0.1s)~~
+- ~~Jump buffer (~0.1s)~~
+- ~~Camera2D follows the player with smoothing~~ → moved to Part 5
 
 ---
 
@@ -168,10 +164,10 @@ and pressing jump just before you land still jumps. The camera follows without j
 **Concepts:** `PackedScene` + `Instantiate()`, adding it to the **level** rather than the player (so it stays put when you move),
 keeping a reference to it and checking `IsInstanceValid`, `QueueFree()`, `GlobalPosition` vs. `Position`, teleporting a physics body,
 giving the translocator its own gravity.
-- [ ] `translocator/translocator.tscn`: CharacterBody2D + sprite + collision (collides with the world, not the player)
-- [ ] `translocator/Translocator.cs`: falls, lands, stays
-- [ ] `translocator_drop` → spawns it at the player's feet, or moves the existing one there
-- [ ] `translocator_recall` → teleports the player to it and resets velocity
+- [x] `translocator/translocator.tscn`: CharacterBody2D + sprite + collision (collides with the world, not the player)
+- [x] `translocator/Translocator.cs`: falls, lands, stays
+- [x] `translocator_drop` → spawns it at the player's feet, or moves the existing one there
+- [x] `translocator_recall` → teleports the player to it and resets velocity
 
 **Done when:** you can drop it on a high ledge, jump down, press recall and be back on the ledge.
 Dropping it mid-air makes it fall to the ground. There's never more than one.
@@ -203,6 +199,7 @@ camera limits per level.
 - [ ] Spikes + fall kill zone
 - [ ] Checkpoints
 - [ ] Death → respawn at checkpoint and remove the translocator
+- [ ] Camera2D follows the player (moved here from Part 2), with limits set to the level's size
 - [ ] `globals/GameState.cs` autoload: current level, gems collected
 
 **Done when:** the level is made of tiles, and touching spikes or falling out of the world puts you back at the last checkpoint.
@@ -273,3 +270,5 @@ audio buses, physics interpolation vs. pixel snapping.
 <!-- One line per finished part, e.g. "Part 1: Player movement (2026-11-05)" -->
 - Part 0: Project setup (2026-11-05)
 - Part 1: Player movement (2026-11-05)
+- Part 2: skipped; basic movement is enough, and the camera moved to Part 5 (2026-11-05)
+- Part 3: Translocator v1: drop & recall (2026-11-12)
