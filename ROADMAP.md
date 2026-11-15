@@ -16,7 +16,7 @@ hold switches down and beat timed doors.
 | 2 | Platforming feel + camera | ⏭️ Skipped |
 | 3 | ⭐ Translocator v1: drop & recall | ✅ Done |
 | 4 | Translocator rules & feedback | ✅ Done |
-| 5 | Tile levels, hazards & respawn | ⬜ Not started |
+| 5 | Tile levels, hazards & respawn | 🔨 In progress |
 | 6 | Puzzle pieces | ⬜ Not started |
 | 7 | Level design | ⬜ Not started |
 | 8 | UI & game flow | ⬜ Not started |
@@ -25,7 +25,9 @@ hold switches down and beat timed doors.
 
 Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 
-> **▶ Resume here (updated 2026-11-15):** Part 5, tile levels, hazards & respawn. Start with the tileset.
+> **▶ Resume here (updated 2026-11-15):** Part 5, tile levels, hazards & respawn. Order: Kenney tileset → camera → checkpoints. Discuss hazards/death when we get there.
+> Level rule: the jump reaches ~46 px, so ledges are at most **2 tiles** (36 px) high. The wizard is ~27 px tall (hitbox 12×26), so gaps must be **2 tiles** high to fit through.
+> Wizard sprite ✅ done early (AnimatedSprite2D, `UpdateAnimation` in `Player.cs`). Next: the Kenney tileset.
 > Part 4 is done (safe recall, cooldown, blink, HUD label). KeepMomentum and walk-over pickup were cut to keep it simple for trainees.
 > Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 46 px. If it feels too tight, raise `_jumpSpeed` a little.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
@@ -194,7 +196,7 @@ Dropping it mid-air makes it fall to the ground. There's never more than one.
 **Concepts:** `TileSet` + `TileMapLayer`, tile physics layers, one-way platforms (and dropping through them),
 `Area2D` + `BodyEntered`, groups, an autoload singleton (`GameState`, like in Zombies), respawning in place vs. reloading the scene,
 camera limits per level.
-- [ ] Tileset with collision (placeholder, or Kenney's free CC0 Pixel Platformer pack)
+- [ ] Tileset with collision, using Kenney's free CC0 Pixel Platformer pack (18×18 tiles, kenney.nl/assets/pixel-platformer)
 - [ ] One-way platforms + drop-through with `move_down`
 - [ ] Spikes + fall kill zone
 - [ ] Checkpoints
@@ -251,7 +253,7 @@ button focus and keyboard navigation.
 **Goal:** polish.
 **Concepts:** `AnimatedSprite2D` / `SpriteFrames`, `AnimationPlayer`, particles, screen shake, squash and stretch,
 audio buses, physics interpolation vs. pixel snapping.
-- [ ] Player animations: idle, run, jump, fall, teleport
+- [x] Player animations: idle, run, jump, fall (wizard sprite, done early during Part 5; the blink covers teleport)
 - [ ] Translocator animation + glow
 - [ ] Dust on jump/land, teleport effect
 - [ ] SFX: jump, land, drop, recall, door, plate, death

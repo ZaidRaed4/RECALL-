@@ -15,6 +15,7 @@ public partial class Player : CharacterBody2D
 	[Export] private Label _statusLabel;
 
 
+	private AnimatedSprite2D _sprite;
 	private CollisionShape2D _collisionShape;
 	private RectangleShape2D _roomCheckShape;
 	private float _recallCooldownLeft;
@@ -62,6 +63,33 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 
 		UpdateStatusLabel();
+		UpdateAnimation(direction);
+	}
+
+	private void UpdateAnimation(float direction)
+	{
+		if (direction != 0)
+		{
+			Vector2 scale = _sprite.Scale;
+			scale.X = Mathf.Abs(scale.X) * Mathf.Sign(direction);
+			_sprite.Scale = scale;
+		}
+
+		if (!IsOnFloor())
+		{
+			if (Velocity.Y < 0)
+			{
+				_sprite.Play("jump");
+			}
+			else
+				_sprite.Play("fall");
+		}
+		else if (direction != 0)
+		{
+			_sprite.Play("run");
+		}
+		else
+			_sprite.Play("idle");
 	}
 
 	// Shows the translocator's state in the HUD.
@@ -107,6 +135,7 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		Vector2 bodysize = ((RectangleShape2D)_collisionShape.Shape).Size;
 		_roomCheckShape = new RectangleShape2D { Size = bodysize - Vector2.One * 2f * _roomCheckInset };
