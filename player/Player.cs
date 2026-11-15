@@ -9,14 +9,26 @@ public partial class Player : CharacterBody2D
 	[Export] private float _friction = 1200f;
 	[Export] private float _jumpSpeed = 300f;
 	[Export] private PackedScene _translocatorScene;
+	[Export] private float _roomCheckInset = 1f;
+	[Export] private float _recallCooldown = 0.4f;
+	[Export] private float _blinkTime = 0.06f;
+	[Export] private Label _statusLabel;
+
+
+	private CollisionShape2D _collisionShape;
+	private RectangleShape2D _roomCheckShape;
+	private float _recallCooldownLeft;
+
+
 	private Translocator _translocator;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		_recallCooldownLeft = Mathf.Max(_recallCooldownLeft - (float)delta, 0f);
 
 		if (Input.IsActionJustPressed("translocator_drop"))
 		{
-			dropTranslocator();
+			DropTranslocator();
 		}
 
 		if (Input.IsActionJustPressed("translocator_recall"))
@@ -48,9 +60,33 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		UpdateStatusLabel();
 	}
 
-	private void dropTranslocator()
+	// Shows the translocator's state in the HUD.
+	private void UpdateStatusLabel()
+	{
+		if (_statusLabel == null)
+		{
+			return;
+		}
+
+		if (!IsInstanceValid(_translocator))
+		{
+			_statusLabel.Text = "No translocator";
+		}
+		else if (_recallCooldownLeft > 0f)
+		{
+			_statusLabel.Text = "Cooling down";
+		}
+		else
+		{
+			_statusLabel.Text = "Recall ready";
+		}
+	}
+
+	private void DropTranslocator()
 	{
 		if (!IsInstanceValid(_translocator))
 		{
@@ -65,9 +101,16 @@ public partial class Player : CharacterBody2D
 			GetParent().AddChild(_translocator);
 		}
 		_translocator.placeAt(GlobalPosition);
-
+		Blink(_translocator);
 	}
 
+	public override void _Ready()
+	{
+		_collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+
+		Vector2 bodysize = ((RectangleShape2D)_collisionShape.Shape).Size;
+		_roomCheckShape = new RectangleShape2D { Size = bodysize - Vector2.One * 2f * _roomCheckInset };
+	}
 
 	private void RecallToTranslocator()
 	{
@@ -76,8 +119,43 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		GlobalPosition = _translocator.GlobalPosition;
+		if (_recallCooldownLeft > 0f)
+		{
+			return;
+		}
+
+		Vector2 target = _translocator.GlobalPosition;
+
+		if (!HasRoomAt(target))
+		{
+			GD.Print("Recall blocked: no room to stand there.");
+			return;
+		}
+
+		GlobalPosition = target;
 		Velocity = Vector2.Zero;
+		_recallCooldownLeft = _recallCooldown;
+		Blink(this);
+	}
+
+	// Blinks something 3 times: fade out, fade back in, repeat.
+	private void Blink(CanvasItem target)
+	{
+		Tween tween = target.CreateTween().SetLoops(3);
+		tween.TweenProperty(target, "modulate:a", 0f, _blinkTime);
+		tween.TweenProperty(target, "modulate:a", 1f, _blinkTime);
+	}
+
+	private bool HasRoomAt(Vector2 feetPosition)
+	{
+		var query = new PhysicsShapeQueryParameters2D
+		{
+			Shape = _roomCheckShape,
+			Transform = new Transform2D(0f, feetPosition + _collisionShape.Position),
+			CollisionMask = CollisionMask,
+		};
+
+		return GetWorld2D().DirectSpaceState.IntersectShape(query, 1).Count == 0;
 	}
 
 }

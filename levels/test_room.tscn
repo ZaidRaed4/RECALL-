@@ -76,5 +76,15 @@ offset_right = 40.0
 offset_bottom = 8.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Player" parent="." unique_id=1625874111 instance=ExtResource("1_ctiq7")]
+[node name="Player" parent="." unique_id=1625874111 node_paths=PackedStringArray("_statusLabel") instance=ExtResource("1_ctiq7")]
 position = Vector2(122, 41)
+_statusLabel = NodePath("../Hud/StatusLabel")
+
+[node name="Hud" type="CanvasLayer" parent="." unique_id=2040917654]
+
+[node name="StatusLabel" type="Label" parent="Hud" unique_id=721745860]
+offset_left = 17.0
+offset_top = 1.0
+offset_right = 139.0
+offset_bottom = 24.0
+text = "No translocator"

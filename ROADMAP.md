@@ -15,7 +15,7 @@ hold switches down and beat timed doors.
 | 1 | Player movement | ✅ Done |
 | 2 | Platforming feel + camera | ⏭️ Skipped |
 | 3 | ⭐ Translocator v1: drop & recall | ✅ Done |
-| 4 | Translocator rules & feedback | 🔨 In progress |
+| 4 | Translocator rules & feedback | ✅ Done |
 | 5 | Tile levels, hazards & respawn | ⬜ Not started |
 | 6 | Puzzle pieces | ⬜ Not started |
 | 7 | Level design | ⬜ Not started |
@@ -25,8 +25,8 @@ hold switches down and beat timed doors.
 
 Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 
-> **▶ Resume here (updated 2026-11-12):** Part 4, translocator rules & feedback. Start with the safe-recall check:
-> the player (12×16) is bigger than the translocator (8×8), so recalling next to a wall or under a low ceiling can put you inside it.
+> **▶ Resume here (updated 2026-11-15):** Part 5, tile levels, hazards & respawn. Start with the tileset.
+> Part 4 is done (safe recall, cooldown, blink, HUD label). KeepMomentum and walk-over pickup were cut to keep it simple for trainees.
 > Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 46 px. If it feels too tight, raise `_jumpSpeed` a little.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
 >
@@ -63,7 +63,7 @@ Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 | Dropping again | Moves it to where you are now | No separate "pick up" key needed |
 | Physics | Falls with gravity, lands and stays put | Can fall through grates and press plates |
 | Recall | Teleports you to it, and it **stays** | A respawn point you control |
-| Velocity after recall | Reset to zero | Predictable; a "keep momentum" option comes later |
+| Velocity after recall | Reset to zero | Predictable |
 | On death | Respawn at checkpoint; translocator removed | Hazards still matter |
 | Recall blocked when | It's in a no-translocate field, or there's no room to stand | Gives puzzles constraints |
 
@@ -97,6 +97,7 @@ res://
 ```
 
 **Conventions** (the same ones as the Zombies project):
+- **Keep it simple.** Trainees will be walked through this project, so build the plain version that works and skip extra or clever features.
 - Scenes: `snake_case.tscn`. Scripts: `PascalCase.cs`, and the class name matches the file name.
 - Each feature keeps its scene and script in the same folder.
 - Private fields: `_camelCase`. Anything we want to tune goes in an `[Export]` field, not a hard-coded number.
@@ -174,14 +175,13 @@ Dropping it mid-air makes it fall to the ground. There's never more than one.
 
 ### Part 4: Translocator rules & feedback
 **Goal:** the mechanic is readable and fair, and it can't break the game.
-**Concepts:** custom `[Signal]`s (`Dropped`, `Recalled`), physics queries (`TestMove` / `ShapeCast2D`) to check for room to stand,
-cooldowns, `Tween` for flashes and squash, particles, `AudioStreamPlayer2D`, a `CanvasLayer` HUD.
-- [ ] Safe-recall check: never teleport into a wall or ceiling
-- [ ] Short recall cooldown
-- [ ] `[Export] bool KeepMomentum` option
-- [ ] Feedback: flash/particles on drop and recall, blinking light on the translocator
-- [ ] HUD icon: placed / not placed / recall ready
-- [ ] Optional: pick it back up by walking over it
+**Concepts:** a physics query to check for room to stand, a cooldown timer, a `Tween` for a simple blink, a `CanvasLayer` HUD with a `Label`.
+- [x] Safe-recall check: never teleport into a wall or ceiling (`HasRoomAt` → `IntersectShape` with the player's box, 1 px inset)
+- [x] Short recall cooldown (`_recallCooldown`, 0.4 s)
+- [x] Feedback: a quick blink on drop and recall
+- [x] HUD label: "No translocator" / "Recall ready" / "Cooling down"
+- ~~`[Export] bool KeepMomentum` option~~ ⏭️ cut: too much for trainees
+- ~~Pick it back up by walking over it~~ ⏭️ cut: too much for trainees
 
 **Done when:** recall never puts you inside a wall, and you always know where your translocator is and whether recall is ready.
 
@@ -272,3 +272,4 @@ audio buses, physics interpolation vs. pixel snapping.
 - Part 1: Player movement (2026-11-05)
 - Part 2: skipped; basic movement is enough, and the camera moved to Part 5 (2026-11-05)
 - Part 3: Translocator v1: drop & recall (2026-11-12)
+- Part 4: Translocator rules & feedback (2026-11-15)
