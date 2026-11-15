@@ -1,80 +1,14 @@
-[gd_scene format=3 uid="uid://copdp3tmqahxi"]
+[gd_scene format=4 uid="uid://copdp3tmqahxi"]
 
 [ext_resource type="PackedScene" uid="uid://cur6yf4ahytnt" path="res://player/player.tscn" id="1_ctiq7"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctiq7"]
-size = Vector2(480, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nlfnm"]
-size = Vector2(16, 270)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwv66"]
-size = Vector2(80, 16)
+[ext_resource type="TileSet" uid="uid://chjwsdx2k2e2b" path="res://levels/dungeon_tileset.tres" id="2_nlfnm"]
 
 [node name="TestRoom" type="Node2D" unique_id=325081135]
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=1406970819]
-position = Vector2(240, 262)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1008036208]
-shape = SubResource("RectangleShape2D_ctiq7")
-
-[node name="ColorRect" type="ColorRect" parent="Floor" unique_id=1430604238]
-offset_left = -240.0
-offset_top = -8.0
-offset_right = 240.0
-offset_bottom = 8.0
-
-[node name="LeftWall" type="StaticBody2D" parent="." unique_id=363262798]
-position = Vector2(8, 135)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1375721740]
-shape = SubResource("RectangleShape2D_nlfnm")
-
-[node name="ColorRect" type="ColorRect" parent="LeftWall" unique_id=1690015279]
-offset_left = -8.0
-offset_top = -135.0
-offset_right = 8.0
-offset_bottom = 135.0
-
-[node name="RightWall" type="StaticBody2D" parent="." unique_id=2137314833]
-position = Vector2(472, 135)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=1006859460]
-position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_nlfnm")
-
-[node name="ColorRect" type="ColorRect" parent="RightWall" unique_id=1179537257]
-offset_left = -8.0
-offset_top = -135.0
-offset_right = 8.0
-offset_bottom = 135.0
-
-[node name="PlatformHigh" type="StaticBody2D" parent="." unique_id=468051999]
-position = Vector2(280, 198)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformHigh" unique_id=1198558821]
-shape = SubResource("RectangleShape2D_xwv66")
-
-[node name="ColorRect" type="ColorRect" parent="PlatformHigh" unique_id=2100978023]
-offset_left = -40.0
-offset_top = -8.0
-offset_right = 40.0
-offset_bottom = 8.0
-metadata/_edit_use_anchors_ = true
-
-[node name="PlatformLow" type="StaticBody2D" parent="." unique_id=490074305]
-position = Vector2(178, 217)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformLow" unique_id=1915310964]
-shape = SubResource("RectangleShape2D_xwv66")
-
-[node name="ColorRect" type="ColorRect" parent="PlatformLow" unique_id=1054297036]
-offset_left = -40.0
-offset_top = -8.0
-offset_right = 40.0
-offset_bottom = 8.0
-metadata/_edit_use_anchors_ = true
+[node name="Ground" type="TileMapLayer" parent="." unique_id=1755349176]
+scale = Vector2(0.25, 0.25)
+tile_map_data = PackedByteArray("AAAAAAsAAAAAAAAAAAABAAsAAQAAAAAAAAACAAsAAQAAAAAAAAADAAsAAQAAAAAAAAAEAAsAAQAAAAAAAAAFAAsAAQAAAAAAAAAGAAsAAQAAAAAAAAAHAAsAAQAAAAAAAAAIAAsAAQAAAAAAAAAJAAsAAQAAAAAAAAAKAAsAAQAAAAAAAAALAAsAAQAAAAAAAAAMAAsAAQAAAAAAAAANAAsAAQAAAAAAAAAOAAsAAQAAAAAAAAAPAAsAAQAAAAAAAAAQAAsAAQAAAAAAAAARAAsAAQAAAAAAAAASAAsAAQAAAAAAAAATAAsAAQAAAAAAAAAUAAsAAQAAAAAAAAAVAAsAAQAAAAAAAAAWAAsAAQAAAAAAAAAXAAsAAQAAAAAAAAAYAAsAAQAAAAAAAAAZAAsAAQAAAAAAAAAaAAsAAQAAAAAAAAAbAAsAAQAAAAAAAAAcAAsAAQAAAAAAAAAdAAsAAQAAAAAAAAA=")
+tile_set = ExtResource("2_nlfnm")
 
 [node name="Player" parent="." unique_id=1625874111 node_paths=PackedStringArray("_statusLabel") instance=ExtResource("1_ctiq7")]
 position = Vector2(122, 41)
