@@ -13,12 +13,15 @@ public partial class Player : CharacterBody2D
 	[Export] private float _recallCooldown = 0.4f;
 	[Export] private float _blinkTime = 0.06f;
 	[Export] private Label _statusLabel;
+	[Export] private PackedScene _spellScene;
+	[Export] private Vector2 _castOffset = new Vector2(20f, -21f);
 
 
 	private AnimatedSprite2D _sprite;
 	private CollisionShape2D _collisionShape;
 	private RectangleShape2D _roomCheckShape;
 	private float _recallCooldownLeft;
+	private bool _isCasting;
 
 
 	private Translocator _translocator;
@@ -58,6 +61,10 @@ public partial class Player : CharacterBody2D
 		{
 			velocity.Y = -_jumpSpeed;
 		}
+		if (Input.IsActionJustPressed("cast"))
+		{
+			StartCast();
+		}
 
 		Velocity = velocity;
 		MoveAndSlide();
@@ -68,6 +75,11 @@ public partial class Player : CharacterBody2D
 
 	private void UpdateAnimation(float direction)
 	{
+		if (_isCasting)
+		{
+			return;
+		}
+
 		if (direction != 0)
 		{
 			Vector2 scale = _sprite.Scale;
@@ -92,7 +104,6 @@ public partial class Player : CharacterBody2D
 			_sprite.Play("idle");
 	}
 
-	// Shows the translocator's state in the HUD.
 	private void UpdateStatusLabel()
 	{
 		if (_statusLabel == null)
@@ -139,6 +150,9 @@ public partial class Player : CharacterBody2D
 
 		Vector2 bodysize = ((RectangleShape2D)_collisionShape.Shape).Size;
 		_roomCheckShape = new RectangleShape2D { Size = bodysize - Vector2.One * 2f * _roomCheckInset };
+
+		_sprite.FrameChanged += OnSpriteFrameChanged;
+		_sprite.AnimationFinished += OnSpriteAnimationFinished;
 	}
 
 	private void RecallToTranslocator()
@@ -167,7 +181,6 @@ public partial class Player : CharacterBody2D
 		Blink(this);
 	}
 
-	// Blinks something 3 times: fade out, fade back in, repeat.
 	private void Blink(CanvasItem target)
 	{
 		Tween tween = target.CreateTween().SetLoops(3);
@@ -185,6 +198,44 @@ public partial class Player : CharacterBody2D
 		};
 
 		return GetWorld2D().DirectSpaceState.IntersectShape(query, 1).Count == 0;
+	}
+
+	private void StartCast()
+	{
+		if (_isCasting)
+		{
+			return;
+		}
+
+		_isCasting = true;
+		_sprite.Play("cast");
+	}
+
+	private void OnSpriteFrameChanged()
+	{
+		if (_isCasting && _sprite.Frame == 4)
+		{
+			SpawnSpell();
+		}
+	}
+
+	private void OnSpriteAnimationFinished()
+	{
+		_isCasting = false;
+	}
+
+	private void SpawnSpell()
+	{
+		if (_spellScene == null)
+		{
+			GD.PushError("Player: drag spell.tscn into the Spell Scene slot in the Inspector.");
+			return;
+		}
+
+		float facing = Mathf.Sign(_sprite.Scale.X);
+		Spell spell = _spellScene.Instantiate<Spell>();
+		GetParent().AddChild(spell);
+		spell.Launch(GlobalPosition + new Vector2(_castOffset.X * facing, _castOffset.Y), facing);
 	}
 
 }

@@ -27,7 +27,9 @@ Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 
 > **▶ Resume here (updated 2026-11-15):** Part 5, tile levels, hazards & respawn. Order: tilemapping lessons (Craftpix dungeon tiles) → camera → checkpoints. Discuss hazards/death when we get there.
 > Level rules (16 px tiles in game): the jump reaches ~46 px, so ledges are at most **2 tiles** (32 px) high. The wizard's hitbox is 12×26, so gaps and headroom need at least **2 tiles** (32 px).
-> Wizard sprite ✅ done early. Tilemapping lesson 1 ✅ (36 rock tiles in `levels/dungeon_tileset.tres`, `Ground` at 0.25 scale, collision reshaped on tile1 + tile2). The other flat-top/ledge tiles (3, 25–34) are still full squares: reshape each one the first time it is used. Background ✅ (`Background` Sprite2D, Pale cave image repeated to 960×270) and camera ✅ (limits 0,0 → 960,270, set in test_room). `Lava` TileMapLayer ✅ (14 lava tiles in the TileSet, **no collision yet**; rock is painted under every pool so you can't fall out; lava gets hazard collision in the hazards lesson). Next: finish lesson 2 (walls, ledges, a 2-tile-high gap), then checkpoints.
+> Wizard sprite ✅ done early. Tilemapping lesson 1 ✅ (36 rock tiles in `levels/dungeon_tileset.tres`, `Ground` at 0.25 scale, collision reshaped on tile1 + tile2). The other flat-top/ledge tiles (3, 25–34) are still full squares: reshape each one the first time it is used. Background ✅ (`Background` Sprite2D, Pale cave image repeated to 960×270) and camera ✅ (limits 0,0 → 960,270, set in test_room). `Lava` TileMapLayer ✅ (14 lava tiles in the TileSet, **no collision yet**; rock is painted under every pool so you can't fall out; lava gets hazard collision in the hazards lesson). Lava glow ✅ (the pack's lava tiles are single frames, so instead of tile animation an `AnimationPlayer` child of `Lava` loops its `modulate` white → `c08080` → white over 1.2 s, autoplay). tile14 collision reshaped too.
+> Spell ✅ (added at the user's request, not in the original plan): `cast` (F, L) plays the wizard's `cast` animation (Attack2, 8 frames, 15 FPS, loop off), and on frame 5 (`_sprite.Frame == 4`, via `FrameChanged`) `spell/spell.tscn` spawns: an Area2D with the purple crystal item at 0.25 scale, mask = world, which flies at 200 px/s and frees itself on hitting a wall or after 1.5 s. `_isCasting` locks `UpdateAnimation` until `AnimationFinished`. The `hit` animation (Hit.png, 4 frames, 10 FPS, loop off) is already in SpriteFrames but not used yet.
+> **Next (user chose this): 3 hearts + the `hit` animation.** Proposed: touching lava costs a heart and plays `hit`, then a short blink of invulnerability so you don't lose all 3 at once; at 0 hearts, respawn. Confirm the damage source with the user first (lava is the only candidate so far), and clear `_isCasting` when hit. Then finish tilemapping lesson 2 (walls, ledges, a 2-tile-high gap) and checkpoints.
 > Part 4 is done (safe recall, cooldown, blink, HUD label). KeepMomentum and walk-over pickup were cut to keep it simple for trainees.
 > Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 46 px. If it feels too tight, raise `_jumpSpeed` a little.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
@@ -52,6 +54,7 @@ Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 | Jump | Space, W, ↑ | `jump` |
 | Drop translocator | Q, J | `translocator_drop` |
 | Recall to translocator | E, K | `translocator_recall` |
+| Cast spell | F, L | `cast` |
 | Restart room | R | `restart` |
 | Pause | Esc | `pause` |
 
@@ -90,6 +93,7 @@ res://
 ├── globals/       autoload singletons: GameState.cs
 ├── player/        player.tscn, Player.cs
 ├── translocator/  translocator.tscn, Translocator.cs   <- the special mechanic
+├── spell/        spell.tscn, Spell.cs (the wizard's bolt)
 ├── objects/       level pieces: door, pressure plate, lever, grate, no-translocate
 │                  field, checkpoint, key, gem, exit
 ├── hazards/       spikes, kill zone
@@ -203,6 +207,8 @@ camera limits per level.
 - [ ] Death → respawn at checkpoint and remove the translocator
 - [x] Camera2D follows the player (moved here from Part 2), with limits set to the level's size (limits set per level via Editable Children)
 - [ ] `globals/GameState.cs` autoload: current level, gems collected
+- [x] Wizard spell: `cast` animation + crystal bolt (`spell/`)
+- [ ] 3 hearts + `hit` animation (heart HUD; the pack has heart item art)
 
 **Done when:** the level is made of tiles, and touching spikes or falling out of the world puts you back at the last checkpoint.
 

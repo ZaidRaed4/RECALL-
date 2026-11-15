@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bx4c2jumj1o66"]
+
+[ext_resource type="Script" uid="uid://coxtd46gitms6" path="res://spell/Spell.cs" id="1_cbdtr"]
+[ext_resource type="Texture2D" uid="uid://5uj52yyq62ae" path="res://assets/free-dungeon-platformer-pixel-art-tileset/PNG/Items/000_0009_crystal.png" id="2_aojo6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eirrc"]
+radius = 3.0
+
+[node name="Spell" type="Area2D" unique_id=698426649]
+collision_layer = 0
+script = ExtResource("1_cbdtr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=428511582]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_aojo6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1963881408]
+shape = SubResource("CircleShape2D_eirrc")
