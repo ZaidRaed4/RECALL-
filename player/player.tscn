@@ -174,3 +174,5 @@ scale = Vector2(0.333, 0.333)
 sprite_frames = SubResource("SpriteFrames_eirrc")
 animation = &"idle"
 offset = Vector2(8, -46)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=556959303]

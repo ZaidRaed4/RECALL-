@@ -27,7 +27,7 @@ Status key: ⬜ Not started · 🔨 In progress · ✅ Done · ⏭️ Skipped
 
 > **▶ Resume here (updated 2026-11-15):** Part 5, tile levels, hazards & respawn. Order: tilemapping lessons (Craftpix dungeon tiles) → camera → checkpoints. Discuss hazards/death when we get there.
 > Level rules (16 px tiles in game): the jump reaches ~46 px, so ledges are at most **2 tiles** (32 px) high. The wizard's hitbox is 12×26, so gaps and headroom need at least **2 tiles** (32 px).
-> Wizard sprite ✅ done early (AnimatedSprite2D, `UpdateAnimation` in `Player.cs`). Tilemapping lesson 1 (TileSet setup + collision) is next.
+> Wizard sprite ✅ done early. Tilemapping lesson 1 ✅ (36 rock tiles in `levels/dungeon_tileset.tres`, `Ground` at 0.25 scale, collision reshaped on tile1 + tile2). The other flat-top/ledge tiles (3, 25–34) are still full squares: reshape each one the first time it is used. Background ✅ (`Background` Sprite2D, Pale cave image repeated to 960×270) and camera ✅ (limits 0,0 → 960,270, set in test_room). Next: lesson 2, painting the full 60×17-tile room, then checkpoints.
 > Part 4 is done (safe recall, cooldown, blink, HUD label). KeepMomentum and walk-over pickup were cut to keep it simple for trainees.
 > Note: `PlatformLow` is 45 px above the floor and the current jump reaches about 46 px. If it feels too tight, raise `_jumpSpeed` a little.
 > *(Optional, any time)* Add the backup keys: ←/→/↓ arrows, W and ↑ for jump, J for drop, K for recall.
@@ -196,12 +196,12 @@ Dropping it mid-air makes it fall to the ground. There's never more than one.
 **Concepts:** `TileSet` + `TileMapLayer`, tile physics layers, one-way platforms (and dropping through them),
 `Area2D` + `BodyEntered`, groups, an autoload singleton (`GameState`, like in Zombies), respawning in place vs. reloading the scene,
 camera limits per level.
-- [ ] Tileset with collision: Craftpix *Free Dungeon Platformer* pack (free-game-assets.itch.io/free-dungeon-platformer-game-tileset-pixel-art). 64×64 tile images, `Ground` scaled to 0.25 so a tile is 16 px in game. Shared `levels/dungeon_tileset.tres`. Licence: free for games, but the raw art files must not be redistributed.
+- [x] Tileset with collision: Craftpix *Free Dungeon Platformer* pack (free-game-assets.itch.io/free-dungeon-platformer-game-tileset-pixel-art). 64×64 tile images, `Ground` scaled to 0.25 so a tile is 16 px in game. Shared `levels/dungeon_tileset.tres`. Licence: free for games, but the raw art files must not be redistributed.
 - [ ] One-way platforms + drop-through with `move_down`
 - [ ] Spikes + fall kill zone
 - [ ] Checkpoints
 - [ ] Death → respawn at checkpoint and remove the translocator
-- [ ] Camera2D follows the player (moved here from Part 2), with limits set to the level's size
+- [x] Camera2D follows the player (moved here from Part 2), with limits set to the level's size (limits set per level via Editable Children)
 - [ ] `globals/GameState.cs` autoload: current level, gems collected
 
 **Done when:** the level is made of tiles, and touching spikes or falling out of the world puts you back at the last checkpoint.
