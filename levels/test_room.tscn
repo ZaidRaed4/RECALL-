@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://cur6yf4ahytnt" path="res://player/player.tscn" id="1_ctiq7"]
 [ext_resource type="Texture2D" uid="uid://dghww2km58p6a" path="res://assets/free-dungeon-platformer-pixel-art-tileset/PNG/Background/Pale/Background.png" id="1_x4mbn"]
 [ext_resource type="TileSet" uid="uid://chjwsdx2k2e2b" path="res://levels/dungeon_tileset.tres" id="2_nlfnm"]
+[ext_resource type="PackedScene" uid="uid://d0oxorwpkuiyd" path="res://hazards/KillZone.tscn" id="4_e6vom"]
+[ext_resource type="PackedScene" uid="uid://dcg01pem1lwfs" path="res://enemy/enemy.tscn" id="5_np6ep"]
 
 [sub_resource type="Animation" id="Animation_x4mbn"]
 length = 0.001
@@ -41,6 +43,9 @@ _data = {
 &"RESET": SubResource("Animation_x4mbn"),
 &"glow": SubResource("Animation_hw6vf")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wyybw"]
+size = Vector2(55, 39)
 
 [node name="TestRoom" type="Node2D" unique_id=325081135]
 
@@ -86,4 +91,17 @@ offset_right = 139.0
 offset_bottom = 24.0
 text = "No translocator"
 
+[node name="KillZone" parent="." unique_id=990937747 instance=ExtResource("4_e6vom")]
+position = Vector2(155, 241)
+
+[node name="CollisionShape2D" parent="KillZone" index="0" unique_id=1638014223]
+position = Vector2(0.5, 11.5)
+shape = SubResource("RectangleShape2D_wyybw")
+
+[node name="Enemy" parent="." unique_id=413058129 node_paths=PackedStringArray("_player") instance=ExtResource("5_np6ep")]
+position = Vector2(505, 227)
+_player = NodePath("../Player")
+_patrolDistance = 160.0
+
 [editable path="Player"]
+[editable path="KillZone"]

@@ -20,14 +20,19 @@ public partial class Player : CharacterBody2D
 	private AnimatedSprite2D _sprite;
 	private CollisionShape2D _collisionShape;
 	private RectangleShape2D _roomCheckShape;
+	private Translocator _translocator;
 	private float _recallCooldownLeft;
 	private bool _isCasting;
+	private bool _isDead;
 
-
-	private Translocator _translocator;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (_isDead)
+		{
+			return;
+		}
+
 		_recallCooldownLeft = Mathf.Max(_recallCooldownLeft - (float)delta, 0f);
 
 		if (Input.IsActionJustPressed("translocator_drop"))
@@ -221,6 +226,11 @@ public partial class Player : CharacterBody2D
 
 	private void OnSpriteAnimationFinished()
 	{
+		if (_isDead)
+		{
+			GetTree().ReloadCurrentScene();
+			return;
+		}
 		_isCasting = false;
 	}
 
@@ -236,6 +246,19 @@ public partial class Player : CharacterBody2D
 		Spell spell = _spellScene.Instantiate<Spell>();
 		GetParent().AddChild(spell);
 		spell.Launch(GlobalPosition + new Vector2(_castOffset.X * facing, _castOffset.Y), facing);
+	}
+
+	public void Die()
+	{
+		if (_isDead)
+		{
+			return;
+		}
+
+		_isDead=true;
+		_isCasting = false;
+		Velocity = Vector2.Zero;
+		_sprite.Play("death");
 	}
 
 }
