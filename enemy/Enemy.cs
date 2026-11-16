@@ -15,6 +15,7 @@ public partial class Enemy : Area2D
 	private float _startX;
 	private float _direction = 1f;
 	private bool _isAttacking;
+	private bool _isDead;
 
 	public override void _Ready()
 	{
@@ -27,8 +28,7 @@ public partial class Enemy : Area2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-
-		if (_isAttacking)
+		if (_isDead || _isAttacking)
 		{
 			return;
 		}
@@ -72,7 +72,7 @@ public partial class Enemy : Area2D
 	private void Chase(float delta)
 	{
 		_direction = DirectionToPlayer();
-		Position = new Vector2(_chaseSpeed * _direction * (float)delta, 0f);
+		Position += new Vector2(_chaseSpeed * _direction * (float)delta, 0f);
 		float x = Mathf.Clamp(Position.X, _startX, _startX + _patrolDistance);
 		Position = new Vector2(x, Position.Y);
 
@@ -106,8 +106,26 @@ public partial class Enemy : Area2D
 		}
 	}
 
+	public void Die()
+	{
+		if (_isDead)
+		{
+			return;
+		}
+
+		_isDead = true;
+		_isAttacking = false;
+		_sprite.Play("die");
+	}
+
 	private void OnSpriteAnimationFinished()
 	{
+		if (_isDead)
+		{
+			QueueFree();
+			return;
+		}
+
 		_isAttacking = false;
 	}
 

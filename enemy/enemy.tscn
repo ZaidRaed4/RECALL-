@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dmo82fcrxuxdk" path="res://enemy/Enemy.cs" id="1_7lgfl"]
 [ext_resource type="Texture2D" uid="uid://doyxmufsdr6je" path="res://assets/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Walk.png" id="2_5p6bu"]
 [ext_resource type="Texture2D" uid="uid://b2jbyd4ra4kx7" path="res://assets/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Attack1.png" id="2_ppra6"]
+[ext_resource type="Texture2D" uid="uid://dbcr2xc83iik5" path="res://assets/Skeletons_Free_Pack/Skeleton_Sword/Skeleton_White/Skeleton_With_VFX/Skeleton_01_White_Die.png" id="3_die"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p200p"]
 atlas = ExtResource("2_ppra6")
@@ -84,6 +85,58 @@ region = Rect2(768, 0, 96, 64)
 atlas = ExtResource("2_5p6bu")
 region = Rect2(864, 0, 96, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_die00"]
+atlas = ExtResource("3_die")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die01"]
+atlas = ExtResource("3_die")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die02"]
+atlas = ExtResource("3_die")
+region = Rect2(192, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die03"]
+atlas = ExtResource("3_die")
+region = Rect2(288, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die04"]
+atlas = ExtResource("3_die")
+region = Rect2(384, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die05"]
+atlas = ExtResource("3_die")
+region = Rect2(480, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die06"]
+atlas = ExtResource("3_die")
+region = Rect2(576, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die07"]
+atlas = ExtResource("3_die")
+region = Rect2(672, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die08"]
+atlas = ExtResource("3_die")
+region = Rect2(768, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die09"]
+atlas = ExtResource("3_die")
+region = Rect2(864, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die10"]
+atlas = ExtResource("3_die")
+region = Rect2(960, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die11"]
+atlas = ExtResource("3_die")
+region = Rect2(1056, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_die12"]
+atlas = ExtResource("3_die")
+region = Rect2(1152, 0, 96, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_eirrc"]
 animations = [{
 "frames": [{
@@ -155,6 +208,50 @@ animations = [{
 "loop": 1,
 "name": &"walk",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die09")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_die12")
+}],
+"loop": 0,
+"name": &"die",
+"speed": 12.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eirrc"]

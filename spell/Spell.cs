@@ -11,6 +11,7 @@ public partial class Spell : Area2D
 	public override void _Ready()
 	{
 		BodyEntered += OnBodyEntered;
+		AreaEntered += OnAreaEntered;
 	}
 
 	public void Launch(Vector2 globalposition, float direction)
@@ -34,6 +35,15 @@ public partial class Spell : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		QueueFree();
+	}
+
+	private void OnAreaEntered(Area2D area)
+	{
+		if (area is Enemy enemy)
+		{
+			enemy.Die();
+			QueueFree();
+		}
 	}
 
 }

@@ -1,10 +1,13 @@
 [gd_scene format=4 uid="uid://copdp3tmqahxi"]
 
 [ext_resource type="PackedScene" uid="uid://cur6yf4ahytnt" path="res://player/player.tscn" id="1_ctiq7"]
+[ext_resource type="Script" uid="uid://bihottsaxedh3" path="res://levels/Level.cs" id="1_np6ep"]
 [ext_resource type="Texture2D" uid="uid://dghww2km58p6a" path="res://assets/free-dungeon-platformer-pixel-art-tileset/PNG/Background/Pale/Background.png" id="1_x4mbn"]
 [ext_resource type="TileSet" uid="uid://chjwsdx2k2e2b" path="res://levels/dungeon_tileset.tres" id="2_nlfnm"]
 [ext_resource type="PackedScene" uid="uid://d0oxorwpkuiyd" path="res://hazards/KillZone.tscn" id="4_e6vom"]
 [ext_resource type="PackedScene" uid="uid://dcg01pem1lwfs" path="res://enemy/enemy.tscn" id="5_np6ep"]
+[ext_resource type="PackedScene" uid="uid://m6wpwgagw4lo" path="res://objects/soul_orb.tscn" id="7_wyybw"]
+[ext_resource type="Texture2D" uid="uid://iq2joyrnt1sy" path="res://assets/Icons_24x24.png" id="8_icons"]
 
 [sub_resource type="Animation" id="Animation_x4mbn"]
 length = 0.001
@@ -44,10 +47,17 @@ _data = {
 &"glow": SubResource("Animation_hw6vf")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_orbicon"]
+atlas = ExtResource("8_icons")
+region = Rect2(216, 192, 24, 24)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wyybw"]
 size = Vector2(55, 39)
 
-[node name="TestRoom" type="Node2D" unique_id=325081135]
+[node name="TestRoom" type="Node2D" unique_id=325081135 node_paths=PackedStringArray("_orbLabel", "_timerLabel")]
+script = ExtResource("1_np6ep")
+_orbLabel = NodePath("Hud/OrbCounter/OrbLabel")
+_timerLabel = NodePath("Hud/TimerLabel")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=802617710]
 texture_filter = 2
@@ -91,6 +101,29 @@ offset_right = 139.0
 offset_bottom = 24.0
 text = "No translocator"
 
+[node name="OrbCounter" type="HBoxContainer" parent="Hud" unique_id=1843920571]
+offset_left = 17.0
+offset_top = 20.0
+offset_right = 81.0
+offset_bottom = 44.0
+
+[node name="OrbIcon" type="TextureRect" parent="Hud/OrbCounter" unique_id=702384615]
+layout_mode = 2
+texture = SubResource("AtlasTexture_orbicon")
+
+[node name="OrbLabel" type="Label" parent="Hud/OrbCounter" unique_id=1668796133]
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="Hud" unique_id=1290475836]
+offset_left = 200.0
+offset_top = 1.0
+offset_right = 280.0
+offset_bottom = 24.0
+text = "0.0"
+horizontal_alignment = 1
+
 [node name="KillZone" parent="." unique_id=990937747 instance=ExtResource("4_e6vom")]
 position = Vector2(155, 241)
 
@@ -102,6 +135,12 @@ shape = SubResource("RectangleShape2D_wyybw")
 position = Vector2(505, 227)
 _player = NodePath("../Player")
 _patrolDistance = 160.0
+
+[node name="SoulOrb" parent="." unique_id=419089143 instance=ExtResource("7_wyybw")]
+position = Vector2(615, 207)
+
+[node name="SoulOrb2" parent="." unique_id=1004057411 instance=ExtResource("7_wyybw")]
+position = Vector2(664, 205)
 
 [editable path="Player"]
 [editable path="KillZone"]
